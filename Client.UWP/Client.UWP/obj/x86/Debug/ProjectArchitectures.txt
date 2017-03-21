@@ -1,1 +1,0 @@
-F:\Sources\HoloLens.Networking.2UWPApps\Client.UWP\Client.UWP\Client.UWP.csproj;x86

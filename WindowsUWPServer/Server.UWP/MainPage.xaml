@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="Server.UWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Server.UWP"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikDataControls="using:Telerik.UI.Xaml.Controls.Data"
+    xmlns:telerikListView="using:Telerik.UI.Xaml.Controls.Data.ListView"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <telerikDataControls:RadListView Name="listView">
+            <telerikDataControls:RadListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Path=Text}" Foreground="Black"/>
+                </DataTemplate>
+            </telerikDataControls:RadListView.ItemTemplate>
+        </telerikDataControls:RadListView>
+    </Grid>
+</Page>
