@@ -2,8 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,7 +13,7 @@ namespace Server.UWP
 {
     public class Item
     {
-        public string Text { get; set; }
+        public string ContentString { get; set; }
     }
 
     /// <summary>
@@ -23,21 +23,45 @@ namespace Server.UWP
     {
         Windows.Networking.Sockets.StreamSocketListener socketListener;
 
-        public ObservableCollection<Item> Notifications { get; set; }
+        public ObservableCollection<Item> IPs { get; set; }
+
+        public ObservableCollection<Item> Actions { get; set; }
+
 
         public MainPage()
         {
             this.InitializeComponent();
             DataContext = this;
-            Notifications = new ObservableCollection<Item>();
-            listView.ItemsSource = Notifications;
-            
+            IPs = new ObservableCollection<Item>();
+            Actions = new ObservableCollection<Item>();
+
+            ipListe.ItemsSource = IPs;
+            actionsListe.ItemsSource = Actions;
+
             this.Loaded += MainPage_Loaded;
         }
 
         private void MainPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            LoadIPs();
             StartTCPServer();
+        }
+
+        private void LoadIPs()
+        {
+            foreach (HostName localHostName in NetworkInformation.GetHostNames())
+            {
+                if (localHostName.IPInformation != null)
+                {
+                    if (localHostName.Type == HostNameType.Ipv4)
+                    {
+                        IPs.Add(new Item()
+                        {
+                            ContentString = localHostName.ToString()
+                        });
+                    }
+                }
+            }
         }
 
         private async void StartTCPServer()
@@ -79,10 +103,25 @@ namespace Server.UWP
                 Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority
                     .Normal, () =>
                     {
-                        Notifications.Add(new Item()
+                        waitConnection.Visibility = Visibility.Collapsed;
+                        actionReceivedTitle.Visibility = Visibility.Visible;
+
+                        string[] actionContent = stringSocket.Split(';');
+
+                        Actions.Clear();
+
+                        if (actionContent.Length > 0)
                         {
-                            Text = stringSocket
-                        });
+                            actionTriggerWith.Text = "Trigger with " + actionContent[0];
+
+                            for (int i = 1; i < actionContent.Length; i++)
+                            {
+                                Actions.Add(new Item()
+                                {
+                                    ContentString = actionContent[i]
+                                });
+                            }
+                        }
                     });
 
                 //Stream outStream = args.Socket.OutputStream.AsStreamForWrite();

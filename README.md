@@ -26,3 +26,9 @@ The configuration is managed in the MainPage.xaml.cs, method StartTCPServer() :
     await socketListener.BindServiceNameAsync("18526");
 
 You can change the port from 18526 to any open port on your device.
+
+### Package manifest
+Don't forget to add these capabilities to the Server.UWP application manifest :
+* Internet (Client & Server)
+* Private networks (Client & Server)
+The goal is to be able to listen on specific ports on the device.

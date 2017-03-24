@@ -47,11 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\ArrowKeyNavigation.cs" />
-     <Compile Include="Assets\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\CameraCollider.cs" />
      <Compile Include="Assets\Scripts\CameraInstance.cs" />
      <Compile Include="Assets\Scripts\CubeColliders.cs" />
      <Compile Include="Assets\Scripts\TCPClient.cs" />
-     <Compile Include="Assets\Scripts\TaxiCollider.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

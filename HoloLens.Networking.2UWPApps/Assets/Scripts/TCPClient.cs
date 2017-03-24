@@ -20,6 +20,11 @@ public class TCPClient : MonoBehaviour {
 
 #if NETFX_CORE
     private Windows.Networking.Sockets.StreamSocket socket;
+#else
+    Socket sock;
+    IPEndPoint ep;
+    byte[] buffer = new byte[1024];
+    private byte[] _recieveBuffer = new byte[8142];
 #endif
 
     private void StartTCPClient()
@@ -38,10 +43,29 @@ public class TCPClient : MonoBehaviour {
             //For the echo server/client application we will use a random port 1337.
             string serverPort = "18526";
             socket.ConnectAsync(serverHost, serverPort).AsTask().Wait();
+        
+            SendToTcp("Bonjour" + System.Environment.NewLine);
         }
         catch (Exception e)
         {
             //Handle exception here.            
+        }
+#else
+        ep = new IPEndPoint(IPAddress.Parse(ServerName), ServerPort);
+        sock = new Socket(ep.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+
+        try
+        {
+            sock.Connect(ep);
+            print("Connected to server " + ServerName);
+            print("Connected : " + sock.Connected);
+            SendToTcp("Bonjour" + System.Environment.NewLine);
+
+            //sock.BeginReceive(_recieveBuffer, 0, _recieveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), null);
+        }
+        catch
+        {
+            print("Could not connect to server! " + ServerName);
         }
 #endif
     }
@@ -54,6 +78,9 @@ public class TCPClient : MonoBehaviour {
         StreamWriter writer = new StreamWriter(streamOut);
         writer.WriteLineAsync(request).Wait();
         writer.FlushAsync().Wait();
+#else
+        buffer = ASCIIEncoding.ASCII.GetBytes(request + System.Environment.NewLine);
+        sock.Send(buffer);
 #endif
         print(request);
     }
