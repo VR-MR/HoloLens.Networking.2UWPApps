@@ -25,7 +25,7 @@ public class TaxiCollider : MonoBehaviour {
                 isTriggered = true;
                 print("Trigger enter between " + this.name + " and " + other.gameObject.name);
                 print("Actions : " + CubeColliders.CubeColliderList[other.gameObject.name].actionsConfiguration);
-                TCPClient.Instance.SendToTcp("Trigger enter with " + this.name + ". Actions : " + CubeColliders.CubeColliderList[other.gameObject.name].actionsConfiguration);
+                TCPClient.Instance.SendToTcp("Trigger enter with " + this.name + ";" + CubeColliders.CubeColliderList[other.gameObject.name].actionsConfiguration);
             }
         }
     }
@@ -37,7 +37,7 @@ public class TaxiCollider : MonoBehaviour {
             isTriggered = false;
             print("Trigger exit between " + this.name + " and " + other.gameObject.name);
             print("Actions : " + CubeColliders.CubeColliderList[other.gameObject.name].actionsConfiguration);
-            TCPClient.Instance.SendToTcp("Trigger exit with " + this.name + ". Actions : " + CubeColliders.CubeColliderList[other.gameObject.name].actionsConfiguration);
+            TCPClient.Instance.SendToTcp("Trigger exit with " + this.name + ";" + CubeColliders.CubeColliderList[other.gameObject.name].actionsConfiguration);
         }
     }
 
@@ -51,7 +51,7 @@ public class TaxiCollider : MonoBehaviour {
                 isCollider = true;
                 print("Collider enter between " + this.name + " and " + collision.gameObject.name);
                 print("Actions : " + CubeColliders.CubeColliderList[collision.gameObject.name].actionsConfiguration);
-                TCPClient.Instance.SendToTcp("Collider enter with " + this.name + ". Actions : " + CubeColliders.CubeColliderList[collision.gameObject.name].actionsConfiguration);
+                TCPClient.Instance.SendToTcp("Collider enter with " + this.name + ";" + CubeColliders.CubeColliderList[collision.gameObject.name].actionsConfiguration);
             }
         }
     }
@@ -63,7 +63,7 @@ public class TaxiCollider : MonoBehaviour {
             isCollider = false;
             print("Collider exit between " + this.name + " and " + collision.gameObject.name);
             print("Actions : " + CubeColliders.CubeColliderList[collision.gameObject.name].actionsConfiguration);
-            TCPClient.Instance.SendToTcp("Collider exit with " + this.name + ". Actions : " + CubeColliders.CubeColliderList[collision.gameObject.name].actionsConfiguration);
+            TCPClient.Instance.SendToTcp("Collider exit with " + this.name + ";" + CubeColliders.CubeColliderList[collision.gameObject.name].actionsConfiguration);
         }
     }
 }

@@ -18,22 +18,4 @@ public class CubeColliders : MonoBehaviour {
 	void Update () {
 		
 	}
-
-    //private bool isCollider = false;
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (isCollider)
-    //    {
-    //        isCollider = true;
-    //        print("Collider enter with " + this.name + ". Actions : " + actionsConfiguration);
-    //        TCPClient.Instance.SendMessage("Collider enter with " + this.name + ". Actions : " + actionsConfiguration);
-    //    }
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    isCollider = false;
-    //    print("Collider exit with " + this.name + ". Actions : " + actionsConfiguration);
-    //    TCPClient.Instance.SendMessage("Collider exit with " + this.name + ". Actions : " + actionsConfiguration);
-    //}
 }
