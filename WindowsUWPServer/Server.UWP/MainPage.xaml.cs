@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using Windows.Networking;
@@ -19,7 +20,7 @@ namespace Server.UWP
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         Windows.Networking.Sockets.StreamSocketListener socketListener;
 
@@ -27,6 +28,14 @@ namespace Server.UWP
 
         public ObservableCollection<Item> Actions { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged(string propertyName = "")
+        {
+            var handler = PropertyChanged;
+            if (handler != null)
+                handler(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public MainPage()
         {
@@ -106,9 +115,12 @@ namespace Server.UWP
                         waitConnection.Visibility = Visibility.Collapsed;
                         actionReceivedTitle.Visibility = Visibility.Visible;
 
-                        string[] actionContent = stringSocket.Split(';');
+                        string[] actionContent = new string[0];
 
                         Actions.Clear();
+
+                        if(stringSocket!= null)
+                            actionContent = stringSocket.Split(';');
 
                         if (actionContent.Length > 0)
                         {
@@ -122,12 +134,9 @@ namespace Server.UWP
                                 });
                             }
                         }
-                    });
 
-                //Stream outStream = args.Socket.OutputStream.AsStreamForWrite();
-                //StreamWriter writer = new StreamWriter(outStream);
-                //writer.WriteLine("Ok, bien reçu");
-                //writer.Flush();
+                        RaisePropertyChanged("Actions");
+                    });
             }
         }
     }
